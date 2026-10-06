@@ -1,0 +1,99 @@
+<form
+  [formGroup]="incidentForm"
+  (ngSubmit)="submit()"
+>
+
+  <div>
+    <label for="title">
+      Title
+    </label>
+
+    <input
+      id="title"
+      type="text"
+      formControlName="title"
+    >
+
+    @if (
+      incidentForm.controls.title.touched &&
+      incidentForm.controls.title.hasError('required')
+    ) {
+      <p>Title is required.</p>
+    }
+
+    @if (
+      incidentForm.controls.title.touched &&
+      incidentForm.controls.title.hasError('minlength')
+    ) {
+      <p>Title must be at least 5 characters.</p>
+    }
+  </div>
+
+
+  <div>
+    <label for="description">
+      Description
+    </label>
+
+    <textarea
+      id="description"
+      formControlName="description"
+    ></textarea>
+
+    @if (
+      incidentForm.controls.description.touched &&
+      incidentForm.controls.description.hasError('required')
+    ) {
+      <p>Description is required.</p>
+    }
+  </div>
+
+
+  <div>
+    <label for="service">
+      Service
+    </label>
+
+    <input
+      id="service"
+      type="text"
+      formControlName="service"
+    >
+
+    @if (
+      incidentForm.controls.service.touched &&
+      incidentForm.controls.service.hasError('required')
+    ) {
+      <p>Service is required.</p>
+    }
+  </div>
+
+
+  <div>
+    <label for="status">
+      Status
+    </label>
+
+    <select
+      id="status"
+      formControlName="status"
+    >
+      <option value="Investigating">
+        Investigating
+      </option>
+
+      <option value="Resolved">
+        Resolved
+      </option>
+    </select>
+  </div>
+
+
+  <button
+    type="submit"
+    [disabled]="incidentForm.invalid"
+  >
+    Create Incident
+  </button>
+
+</form>

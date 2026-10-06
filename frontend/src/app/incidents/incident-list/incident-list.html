@@ -1,0 +1,15 @@
+<input
+  type="text"
+  placeholder="Search incidents"
+  (input)="handleSearch($event)"
+>
+
+@for (
+  incident of filteredIncidents();
+  track incident.id
+) {
+  <app-incident-card
+    [incident]="incident"
+    (resolve)="handleResolve($event)"
+  />
+}

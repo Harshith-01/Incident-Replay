@@ -1,0 +1,23 @@
+<article>
+  <h3>{{ incident().title }}</h3>
+
+  <p>
+    {{ incident().description }}
+  </p>
+
+  <p>
+    Service: {{ incident().service }}
+  </p>
+
+  <p>
+    Status: {{ incident().status }}
+  </p>
+
+  <a [routerLink]="['/incidents', incident().id]">
+    View Details
+  </a>
+
+  <button (click)="resolveIncident()">
+    Resolve
+  </button>
+</article>

@@ -1,0 +1,35 @@
+<section>
+  <div class="page-header">
+    <div>
+      <h1>Incidents</h1>
+      <p>Review recent production incidents.</p>
+    </div>
+
+    <a routerLink="/incidents/new">
+      Create Incident
+    </a>
+  </div>
+
+  <nav>
+    <a
+      [routerLink]="['/incidents']"
+      [queryParams]="{ status: 'Investigating' }"
+    >
+      Investigating
+    </a>
+
+    <a
+      [routerLink]="['/incidents']"
+      [queryParams]="{ status: 'Resolved' }"
+    >
+      Resolved
+    </a>
+
+    <a routerLink="/incidents">
+      All
+    </a>
+  </nav>
+<app-incident-list
+  [incidents]="filteredIncidents()"
+/>
+</section>

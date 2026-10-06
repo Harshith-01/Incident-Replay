@@ -1,0 +1,28 @@
+<section>
+  <h1>Incident Replay Dashboard</h1>
+
+  <p>
+    Monitor and investigate production incidents.
+  </p>
+
+  <div class="stats">
+    <article>
+      <h2>{{ totalIncidents }}</h2>
+      <p>Total Incidents</p>
+    </article>
+
+    <article>
+      <h2>{{ activeIncidents }}</h2>
+      <p>Investigating</p>
+    </article>
+
+    <article>
+      <h2>{{ resolvedIncidents }}</h2>
+      <p>Resolved</p>
+    </article>
+  </div>
+
+  <a routerLink="/incidents">
+    View Incidents
+  </a>
+</section>

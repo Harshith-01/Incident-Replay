@@ -1,0 +1,34 @@
+@if (incident(); as currentIncident) {
+
+  <article>
+    <a routerLink="/incidents">
+      ← Back to Incidents
+    </a>
+
+    <h1>{{ currentIncident.title }}</h1>
+
+    <p>
+      {{ currentIncident.description }}
+    </p>
+
+    <dl>
+      <dt>Service</dt>
+      <dd>{{ currentIncident.service }}</dd>
+
+      <dt>Status</dt>
+      <dd>{{ currentIncident.status }}</dd>
+
+      <dt>Created</dt>
+      <dd>{{ currentIncident.createdAt }}</dd>
+    </dl>
+  </article>
+
+} @else {
+
+  <h1>Incident Not Found</h1>
+
+  <a routerLink="/incidents">
+    Back to Incidents
+  </a>
+
+}
