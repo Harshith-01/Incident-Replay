@@ -1,5 +1,14 @@
-import { Component, inject } from '@angular/core';
+import {
+  Component,
+  DestroyRef,
+  inject,
+  OnInit
+} from '@angular/core';
+
 import { RouterLink } from '@angular/router';
+
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+
 import { IncidentService } from '../../services/incident';
 
 @Component({
@@ -8,10 +17,24 @@ import { IncidentService } from '../../services/incident';
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.css'
 })
-export class Dashboard {
-  private incidentService = inject(IncidentService);
+export class Dashboard implements OnInit {
+  private destroyRef =
+    inject(DestroyRef);
 
-  incidents = this.incidentService.getIncidents();
+  private incidentService =
+    inject(IncidentService);
+
+  incidents =
+    this.incidentService.getIncidents();
+
+  ngOnInit(): void {
+    this.incidentService
+      .loadIncidents()
+      .pipe(
+        takeUntilDestroyed(this.destroyRef)
+      )
+      .subscribe();
+  }
 
   get totalIncidents(): number {
     return this.incidents().length;
@@ -19,13 +42,15 @@ export class Dashboard {
 
   get activeIncidents(): number {
     return this.incidents().filter(
-      (incident) => incident.status === 'Investigating'
+      (incident) =>
+        incident.status === 'Investigating'
     ).length;
   }
 
   get resolvedIncidents(): number {
     return this.incidents().filter(
-      (incident) => incident.status === 'Resolved'
+      (incident) =>
+        incident.status === 'Resolved'
     ).length;
   }
 }

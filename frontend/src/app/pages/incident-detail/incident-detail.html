@@ -1,34 +1,79 @@
-@if (incident(); as currentIncident) {
-
-  <article>
-    <a routerLink="/incidents">
-      ← Back to Incidents
+<section class="mx-auto max-w-4xl px-4 py-8 sm:px-6">
+  @if (incident(); as currentIncident) {
+    <a
+      routerLink="/incidents"
+      class="text-sm font-medium text-teal-600 hover:text-teal-700"
+    >
+      ← Back to incidents
     </a>
 
-    <h1>{{ currentIncident.title }}</h1>
+    <article
+      class="mt-6 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm"
+    >
+      <div class="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+        <div>
+          <p class="text-sm font-medium text-teal-600">
+            {{ currentIncident.service }}
+          </p>
 
-    <p>
-      {{ currentIncident.description }}
-    </p>
+          <h1 class="mt-1 text-3xl font-bold tracking-tight text-slate-900">
+            {{ currentIncident.title }}
+          </h1>
+        </div>
 
-    <dl>
-      <dt>Service</dt>
-      <dd>{{ currentIncident.service }}</dd>
+        <span
+          class="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-700"
+        >
+          {{ currentIncident.status }}
+        </span>
+      </div>
 
-      <dt>Status</dt>
-      <dd>{{ currentIncident.status }}</dd>
+      <p class="mt-6 leading-7 text-slate-600">
+        {{ currentIncident.description }}
+      </p>
 
-      <dt>Created</dt>
-      <dd>{{ currentIncident.createdAt }}</dd>
-    </dl>
-  </article>
+      <dl class="mt-8 grid gap-4 border-t border-slate-100 pt-6 sm:grid-cols-2">
+        <div>
+          <dt class="text-xs font-semibold uppercase tracking-wider text-slate-400">
+            Service
+          </dt>
 
-} @else {
+          <dd class="mt-1 text-sm font-medium text-slate-800">
+            {{ currentIncident.service }}
+          </dd>
+        </div>
 
-  <h1>Incident Not Found</h1>
+        <div>
+          <dt class="text-xs font-semibold uppercase tracking-wider text-slate-400">
+            Created
+          </dt>
 
-  <a routerLink="/incidents">
-    Back to Incidents
-  </a>
+          <dd class="mt-1 text-sm font-medium text-slate-800">
+            {{ currentIncident.createdAt | date }}
+          </dd>
+        </div>
+      </dl>
+    </article>
+  } @else {
+    @if (incidentService.loading()) {
+      <p class="text-slate-500">
+        Loading incident...
+      </p>
+    } @else if (incidentService.error(); as error) {
+      <div class="rounded-xl border border-red-200 bg-red-50 p-4 text-red-700">
+        {{ error }}
+      </div>
+    } @else {
+      <h1 class="text-2xl font-bold text-slate-900">
+        Incident not found
+      </h1>
 
-}
+      <a
+        routerLink="/incidents"
+        class="mt-4 inline-block text-teal-600 hover:text-teal-700"
+      >
+        Back to incidents
+      </a>
+    }
+  }
+</section>

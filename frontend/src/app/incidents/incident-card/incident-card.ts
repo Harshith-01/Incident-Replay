@@ -12,7 +12,11 @@ import { RouterLink } from '@angular/router';
 export class IncidentCard {
   incident=input.required<Incident>();
   resolve= output<string>();
+  delete=output<string>();
   resolveIncident():void{
-    this.resolve.emit(this.incident().id)
+    this.resolve.emit(this.incident().id);
+  }
+  deleteIncident():void{
+    this.delete.emit(this.incident().id)
   }
 }

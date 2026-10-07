@@ -2,8 +2,11 @@ import { Component, inject } from '@angular/core';
 import {
   Router,
   RouterLink,
+  RouterLinkActive,
   RouterOutlet
 } from '@angular/router';
+
+
 
 import { Auth } from './services/auth';
 
@@ -11,7 +14,8 @@ import { Auth } from './services/auth';
   selector: 'app-root',
   imports: [
     RouterLink,
-    RouterOutlet
+    RouterOutlet,
+    RouterLinkActive
   ],
   templateUrl: './app.html',
   styleUrl: './app.css'

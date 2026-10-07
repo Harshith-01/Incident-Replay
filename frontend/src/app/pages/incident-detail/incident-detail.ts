@@ -1,27 +1,62 @@
-import { Component, computed, inject } from '@angular/core';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import {
+  Component,
+  DestroyRef,
+  inject,
+  OnInit,
+  signal
+} from '@angular/core';
 
+import {
+  ActivatedRoute,
+  RouterLink
+} from '@angular/router';
+
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+
+import { Incident } from '../../models/incident';
 import { IncidentService } from '../../services/incident';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-incident-detail',
-  imports: [RouterLink],
+  imports: [RouterLink,DatePipe],
   templateUrl: './incident-detail.html',
   styleUrl: './incident-detail.css'
 })
-export class IncidentDetail {
-  private route = inject(ActivatedRoute);
-  private incidentService = inject(IncidentService);
+export class IncidentDetail implements OnInit {
+  private route =
+    inject(ActivatedRoute);
 
-  incidentId =
-    this.route.snapshot.paramMap.get('id');
+  private destroyRef =
+    inject(DestroyRef);
 
-  incident = computed(() => {
-    if (!this.incidentId) {
-      return undefined;
+  incidentService =
+    inject(IncidentService);
+
+  incident =
+    signal<Incident | undefined>(
+      undefined
+    );
+
+  ngOnInit(): void {
+    const id =
+      this.route.snapshot.paramMap.get(
+        'id'
+      );
+
+    if (!id) {
+      return;
     }
 
-    return this.incidentService
-      .getIncidentById(this.incidentId);
-  });
+    this.incidentService
+      .getIncidentById(id)
+      .pipe(
+        takeUntilDestroyed(this.destroyRef)
+      )
+      .subscribe({
+        next: (incident) => {
+          this.incident.set(incident);
+        }
+      });
+  }
 }

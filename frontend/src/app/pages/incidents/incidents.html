@@ -1,19 +1,34 @@
-<section>
-  <div class="page-header">
+<section class="mx-auto max-w-6xl px-4 py-8 sm:px-6 lg:px-8">
+  <div
+    class="mb-8 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between"
+  >
     <div>
-      <h1>Incidents</h1>
-      <p>Review recent production incidents.</p>
+      <p class="mb-2 text-sm font-semibold uppercase tracking-wider text-teal-600">
+        Incident management
+      </p>
+
+      <h1 class="text-3xl font-bold tracking-tight text-slate-900">
+        Incidents
+      </h1>
+
+      <p class="mt-2 text-slate-500">
+        Review and investigate recent production incidents.
+      </p>
     </div>
 
-    <a routerLink="/incidents/new">
-      Create Incident
+    <a
+      routerLink="/incidents/new"
+      class="inline-flex items-center justify-center rounded-xl bg-teal-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-teal-700"
+    >
+      Create incident
     </a>
   </div>
 
-  <nav>
+  <div class="mb-6 flex flex-wrap gap-2">
     <a
       [routerLink]="['/incidents']"
       [queryParams]="{ status: 'Investigating' }"
+      class="rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm font-medium text-slate-600 hover:bg-slate-50"
     >
       Investigating
     </a>
@@ -21,15 +36,36 @@
     <a
       [routerLink]="['/incidents']"
       [queryParams]="{ status: 'Resolved' }"
+      class="rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm font-medium text-slate-600 hover:bg-slate-50"
     >
       Resolved
     </a>
 
-    <a routerLink="/incidents">
+    <a
+      routerLink="/incidents"
+      class="rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm font-medium text-slate-600 hover:bg-slate-50"
+    >
       All
     </a>
-  </nav>
-<app-incident-list
-  [incidents]="filteredIncidents()"
-/>
+  </div>
+
+  @if (incidentService.loading()) {
+    <div
+      class="mb-5 rounded-xl border border-teal-100 bg-teal-50 px-4 py-3 text-sm text-teal-700"
+    >
+      Loading...
+    </div>
+  }
+
+  @if (incidentService.error(); as error) {
+    <div
+      class="mb-5 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700"
+    >
+      {{ error }}
+    </div>
+  }
+
+  <app-incident-list
+    [incidents]="filteredIncidents()"
+  />
 </section>

@@ -1,99 +1,149 @@
-<form
-  [formGroup]="incidentForm"
-  (ngSubmit)="submit()"
->
+<section class="mx-auto max-w-3xl px-4 py-8 sm:px-6">
+  <div class="mb-8">
+    <p class="text-sm font-semibold uppercase tracking-wider text-teal-600">
+      Incident management
+    </p>
 
-  <div>
-    <label for="title">
-      Title
-    </label>
+    <h1 class="mt-2 text-3xl font-bold tracking-tight text-slate-900">
+      Create incident
+    </h1>
 
-    <input
-      id="title"
-      type="text"
-      formControlName="title"
-    >
-
-    @if (
-      incidentForm.controls.title.touched &&
-      incidentForm.controls.title.hasError('required')
-    ) {
-      <p>Title is required.</p>
-    }
-
-    @if (
-      incidentForm.controls.title.touched &&
-      incidentForm.controls.title.hasError('minlength')
-    ) {
-      <p>Title must be at least 5 characters.</p>
-    }
+    <p class="mt-2 text-slate-500">
+      Record an incident so the investigation timeline can be built later.
+    </p>
   </div>
 
-
-  <div>
-    <label for="description">
-      Description
-    </label>
-
-    <textarea
-      id="description"
-      formControlName="description"
-    ></textarea>
-
-    @if (
-      incidentForm.controls.description.touched &&
-      incidentForm.controls.description.hasError('required')
-    ) {
-      <p>Description is required.</p>
-    }
-  </div>
-
-
-  <div>
-    <label for="service">
-      Service
-    </label>
-
-    <input
-      id="service"
-      type="text"
-      formControlName="service"
-    >
-
-    @if (
-      incidentForm.controls.service.touched &&
-      incidentForm.controls.service.hasError('required')
-    ) {
-      <p>Service is required.</p>
-    }
-  </div>
-
-
-  <div>
-    <label for="status">
-      Status
-    </label>
-
-    <select
-      id="status"
-      formControlName="status"
-    >
-      <option value="Investigating">
-        Investigating
-      </option>
-
-      <option value="Resolved">
-        Resolved
-      </option>
-    </select>
-  </div>
-
-
-  <button
-    type="submit"
-    [disabled]="incidentForm.invalid"
+  <form
+    [formGroup]="incidentForm"
+    (ngSubmit)="submit()"
+    class="space-y-6 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm"
   >
-    Create Incident
-  </button>
+    <div>
+      <label
+        for="title"
+        class="mb-2 block text-sm font-medium text-slate-700"
+      >
+        Title
+      </label>
 
-</form>
+      <input
+        id="title"
+        type="text"
+        formControlName="title"
+        placeholder="API requests returning 500"
+        class="w-full rounded-xl border border-slate-200 px-4 py-3 text-sm outline-none transition focus:border-teal-500 focus:ring-2 focus:ring-teal-100"
+      >
+
+      @if (
+        incidentForm.controls.title.touched &&
+        incidentForm.controls.title.hasError('required')
+      ) {
+        <p class="mt-1 text-sm text-red-600">
+          Title is required.
+        </p>
+      }
+
+      @if (
+        incidentForm.controls.title.touched &&
+        incidentForm.controls.title.hasError('minlength')
+      ) {
+        <p class="mt-1 text-sm text-red-600">
+          Title must be at least 5 characters.
+        </p>
+      }
+    </div>
+
+    <div>
+      <label
+        for="description"
+        class="mb-2 block text-sm font-medium text-slate-700"
+      >
+        Description
+      </label>
+
+      <textarea
+        id="description"
+        rows="5"
+        formControlName="description"
+        placeholder="Describe what happened..."
+        class="w-full resize-y rounded-xl border border-slate-200 px-4 py-3 text-sm outline-none transition focus:border-teal-500 focus:ring-2 focus:ring-teal-100"
+      ></textarea>
+
+      @if (
+        incidentForm.controls.description.touched &&
+        incidentForm.controls.description.hasError('required')
+      ) {
+        <p class="mt-1 text-sm text-red-600">
+          Description is required.
+        </p>
+      }
+    </div>
+
+    <div>
+      <label
+        for="service"
+        class="mb-2 block text-sm font-medium text-slate-700"
+      >
+        Service
+      </label>
+
+      <input
+        id="service"
+        type="text"
+        formControlName="service"
+        placeholder="Task API"
+        class="w-full rounded-xl border border-slate-200 px-4 py-3 text-sm outline-none transition focus:border-teal-500 focus:ring-2 focus:ring-teal-100"
+      >
+
+      @if (
+        incidentForm.controls.service.touched &&
+        incidentForm.controls.service.hasError('required')
+      ) {
+        <p class="mt-1 text-sm text-red-600">
+          Service is required.
+        </p>
+      }
+    </div>
+
+    <div>
+      <label
+        for="status"
+        class="mb-2 block text-sm font-medium text-slate-700"
+      >
+        Status
+      </label>
+
+      <select
+        id="status"
+        formControlName="status"
+        class="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm outline-none focus:border-teal-500 focus:ring-2 focus:ring-teal-100"
+      >
+        <option value="Investigating">
+          Investigating
+        </option>
+
+        <option value="Resolved">
+          Resolved
+        </option>
+      </select>
+    </div>
+
+    @if (incidentService.error(); as error) {
+      <div class="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+        {{ error }}
+      </div>
+    }
+
+    <button
+      type="submit"
+      [disabled]="incidentForm.invalid || incidentService.loading()"
+      class="w-full rounded-xl bg-teal-600 px-4 py-3 text-sm font-semibold text-white transition hover:bg-teal-700 disabled:cursor-not-allowed disabled:opacity-50"
+    >
+      @if (incidentService.loading()) {
+        Creating...
+      } @else {
+        Create incident
+      }
+    </button>
+  </form>
+</section>
